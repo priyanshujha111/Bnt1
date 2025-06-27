@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>React Tasks in One Frame</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .card {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+    }
+    input, button {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding: 5px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const { useState } = React;
+
+    const Counter = () => {
+      const [count, setCount] = useState(0);
+      return (
+        <div className="card">
+          <h3>1. Counter</h3>
+          <p>Count: {count}</p>
+          <button onClick={() => setCount(count + 1)}>Increase</button>
+        </div>
+      );
+    };
+
+    const ToggleMessage = () => {
+      const [message, setMessage] = useState("Hello");
+      return (
+        <div className="card">
+          <h3>2. Toggle Message</h3>
+          <p>{message}</p>
+          <button onClick={() => setMessage(msg => msg === "Hello" ? "Welcome Back" : "Hello")}>Toggle</button>
+        </div>
+      );
+    };
+
+    const ChildComponent = ({ message }) => <p>{message}</p>;
+
+    const ParentComponent = () => (
+      <div className="card">
+        <h3>3. Parent to Child</h3>
+        <ChildComponent message="Good morning" />
+      </div>
+    );
+
+    const Child = ({ message }) => <p>{message}</p>;
+
+    const Parent = ({ message }) => <Child message={message} />;
+
+    const GrandParent = () => (
+      <div className="card">
+        <h3>4. GrandParent ➝ Child</h3>
+        <Parent message="Hello from GrandParent" />
+      </div>
+    );
+
+    const NameList = () => {
+      const names = ["John", "Jane", "Alex"];
+      return (
+        <div className="card">
+          <h3>5. Name List</h3>
+          <ul>
+            {names.map((name, i) => <li key={i}>{name}</li>)}
+          </ul>
+        </div>
+      );
+    };
+
+    const CheckboxMessage = () => {
+      const [checked, setChecked] = useState(false);
+      return (
+        <div className="card">
+          <h3>6. Checkbox Message</h3>
+          <input type="checkbox" onChange={(e) => setChecked(e.target.checked)} />
+          {checked && <p>You checked the box!</p>}
+        </div>
+      );
+    };
+
+    const ControlledInput = () => {
+      const [value, setValue] = useState("");
+      return (
+        <div className="card">
+          <h3>7. Controlled Input</h3>
+          <input value={value} onChange={(e) => setValue(e.target.value)} />
+          <p>Value: {value}</p>
+        </div>
+      );
+    };
+
+    const InputField = ({ label, placeholder, name, onChange }) => (
+      <div>
+        <label>{label}</label><br/>
+        <input name={name} placeholder={placeholder} onChange={onChange} />
+      </div>
+    );
+
+    const ReusableInput = () => {
+      const handleChange = (e) => console.log(e.target.value);
+      return (
+        <div className="card">
+          <h3>8. Reusable Input</h3>
+          <InputField
+            label="Name:"
+            name="name"
+            placeholder="Enter name"
+            onChange={handleChange}
+          />
+        </div>
+      );
+    };
+
+    const LoginForm = () => {
+      const [username, setUsername] = useState('');
+      const [password, setPassword] = useState('');
+      return (
+        <div className="card">
+          <h3>9. Login Form</h3>
+          <input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} /><br/>
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /><br/>
+          <button disabled={!username || !password}>Login</button>
+        </div>
+      );
+    };
+
+    const ItemList = () => {
+      const [items, setItems] = useState(["Item 1", "Item 2", "Item 3"]);
+      const deleteItem = index => setItems(items.filter((_, i) => i !== index));
+      return (
+        <div className="card">
+          <h3>10. List with Delete</h3>
+          <ul>
+            {items.map((item, i) => (
+              <li key={i}>
+                {item} <button onClick={() => deleteItem(i)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    };
+
+    const TodoApp = () => {
+      const [todos, setTodos] = useState([]);
+      const [input, setInput] = useState("");
+      const addTodo = () => {
+        if (input.trim()) {
+          setTodos([...todos, input]);
+          setInput("");
+        }
+      };
+      const deleteTodo = i => setTodos(todos.filter((_, idx) => idx !== i));
+      return (
+        <div className="card">
+          <h3>11. Todo App</h3>
+          <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Add todo" />
+          <button onClick={addTodo}>Add</button>
+          <ul>
+            {todos.map((todo, i) => (
+              <li key={i}>
+                {todo} <button onClick={() => deleteTodo(i)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    };
+
+    const ResetCounter = () => {
+      const [count, setCount] = useState(0);
+      const increment = () => setCount(prev => prev >= 5 ? 0 : prev + 1);
+      return (
+        <div className="card">
+          <h3>12. Reset Counter</h3>
+          <p>{count}</p>
+          <button onClick={increment}>Click Me</button>
+        </div>
+      );
+    };
+
+    const App = () => (
+      <div>
+        <h1>React Questions - All in One</h1>
+        <Counter />
+        <ToggleMessage />
+        <ParentComponent />
+        <GrandParent />
+        <NameList />
+        <CheckboxMessage />
+        <ControlledInput />
+        <ReusableInput />
+        <LoginForm />
+        <ItemList />
+        <TodoApp />
+        <ResetCounter />
+      </div>
+    );
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

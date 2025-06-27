@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Tasks</title>
+  
+</head>
+<body>
+
+  <h2>1. Most Repeated Character</h2>
+  <pre id="output1"></pre>
+
+  <h2>2. Unique Elements in Two Arrays</h2>
+  <pre id="output2"></pre>
+
+  <h2>3. Longest Word in Sentence</h2>
+  <pre id="output3"></pre>
+
+  <h2>4. Chainable Function</h2>
+  <pre id="output4"></pre>
+
+  <h2>5. Hoisting Explanation</h2>
+  <pre id="output5"></pre>
+
+  <script>
+    // 1. Most repeated character
+    function mostRepeatedChar(str) {
+      const freq = {};
+      for (let char of str) {
+        freq[char] = (freq[char] || 0) + 1;
+      }
+      let maxChar = '', maxCount = 0;
+      for (let char in freq) {
+        if (freq[char] > maxCount) {
+          maxChar = char;
+          maxCount = freq[char];
+        }
+      }
+      return maxChar;
+    }
+    document.getElementById('output1').textContent = mostRepeatedChar("aabbbcc"); // Output: "b"
+
+    // 2. Unique elements in two arrays
+    function uniqueElements(arr1, arr2) {
+      return [...new Set([...arr1.filter(x => !arr2.includes(x)), ...arr2.filter(x => !arr1.includes(x))])];
+    }
+    document.getElementById('output2').textContent = JSON.stringify(uniqueElements([1, 2, 3], [2, 4, 5])); // [1, 3, 4, 5]
+
+    // 3. Longest word in sentence
+    function longestWord(sentence) {
+      const words = sentence.split(" ");
+      return words.reduce((longest, word) => word.length > longest.length ? word : longest, "");
+    }
+    document.getElementById('output3').textContent = longestWord("JavaScript is powerful"); // Output: "JavaScript"
+
+    // 4. Chainable function
+    function chain(value) {
+      return {
+        add(n) {
+          value += n;
+          return this;
+        },
+        subtract(n) {
+          value -= n;
+          return this;
+        },
+        result() {
+          return value;
+        }
+      };
+    }
+    document.getElementById('output4').textContent = chain(5).add(2).subtract(1).result(); // Output: 6
+
+    // 5. Hoisting Example
+    var hoistingMessage = '';
+    function showHoisting() {
+      hoistingMessage += "Value of x before declaration: " + x + "\n";
+      var x = 10;
+      hoistingMessage += "Value of x after declaration: " + x + "\n";
+    }
+    showHoisting();
+    document.getElementById('output5').textContent = hoistingMessage;
+
+    
+  </script>
+</body>
+</html>

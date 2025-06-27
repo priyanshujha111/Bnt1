@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Units: px, em, rem, %</title>
+  <style>
+    html {
+      font-size: 16px; 
+    }
+
+    body {
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    .box {
+      margin: 15px 0;
+      padding: 10px;
+      border: 2px solid #000;
+      background-color: red;
+    }
+
+    .px-box {
+      font-size: 20px;     
+      width: 200px;         
+    }
+
+    .em-box {
+      font-size: 1.5em;     
+      width: 10em;          
+    }
+
+    .rem-box {
+      font-size: 1.5rem;    
+      width: 20rem;         
+    }
+
+    .percent-box {
+      font-size: 120%;      
+      width: 50%;           
+    }
+  </style>
+</head>
+<body>
+
+  <h2>CSS Units Demo: px, em, rem, %</h2>
+
+  <div class="box px-box">
+    <strong>PX</strong>: Font size = 20px, Width = 200px (fixed)
+  </div>
+
+  <div class="box em-box">
+    <strong>EM</strong>: Font size = 1.5em (relative to parent), Width = 10em
+  </div>
+
+  <div class="box rem-box">
+    <strong>REM</strong>: Font size = 1.5rem (relative to root), Width = 20rem
+  </div>
+
+  <div class="box percent-box">
+    <strong>%</strong>: Font size = 120%, Width = 50% of body
+  </div>
+
+</body>
+</html>
